@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class PrimaryTransaction {
@@ -16,18 +18,23 @@ public class PrimaryTransaction {
 	private double amount;
 	private BigDecimal availableBalance;
 
+	@ManyToOne
+	@JoinColumn(name = "primary_account_id")
+	private PrimaryAccount primaryAccount;
+
 	public PrimaryTransaction() {
 
 	}
 
 	public PrimaryTransaction(Date date, String description, String type, String status, double amount,
-			BigDecimal availableBalance) {
+			BigDecimal availableBalance, PrimaryAccount primaryAccount) {
 		this.date = date;
 		this.description = description;
 		this.type = type;
 		this.status = status;
 		this.amount = amount;
 		this.availableBalance = availableBalance;
+		this.primaryAccount = primaryAccount;
 	}
 
 	public Long getId() {
@@ -86,10 +93,19 @@ public class PrimaryTransaction {
 		this.availableBalance = availableBalance;
 	}
 
+	public PrimaryAccount getPrimaryAccount() {
+		return primaryAccount;
+	}
+
+	public void setPrimaryAccount(PrimaryAccount primaryAccount) {
+		this.primaryAccount = primaryAccount;
+	}
+
 	@Override
 	public String toString() {
-		return "PrimaryTransaction [id=" + id + ", description=" + description + ", type=" + type + ", status=" + status
-				+ ", amount=" + amount + "]";
+		return "PrimaryTransaction [id=" + id + ", date=" + date + ", description=" + description + ", type=" + type
+				+ ", status=" + status + ", amount=" + amount + ", availableBalance=" + availableBalance
+				+ ", primaryAccount=" + primaryAccount + "]";
 	}
 
 }
